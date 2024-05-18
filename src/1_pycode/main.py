@@ -1,8 +1,12 @@
+# this is an example of using two chains combined together. 
+# forst chain produces some sample code and send it to second chain which should generate tests for it
+
 from langchain.chains.llm import LLMChain
 from langchain.chains.sequential import SequentialChain
-from langchain_community.llms.openai import OpenAI
+from langchain_openai import OpenAI
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
+
 import argparse
 
 load_dotenv()
@@ -22,7 +26,7 @@ code_prompt = PromptTemplate(
 
 test_prompt = PromptTemplate(
     input_variables=["language", "code"],
-    template="Write a test fot he following {language} code:<n{code}"
+    template="Write a test for he following {language} code:<n{code}"
 )
 
 code_chain = LLMChain(
@@ -44,7 +48,7 @@ chain = SequentialChain(
     output_variables=["test", "code"]
 )
 
-result = chain({
+result = chain.invoke({
     "language": args.language,
     "task": args.task
 })
