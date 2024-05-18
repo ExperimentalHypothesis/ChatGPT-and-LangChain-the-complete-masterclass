@@ -28,11 +28,7 @@ chain = LLMChain(
     memory=memory
 )
 
-res = None
 while True:
     content = input(">> ")
-    res = chain({"content": content})
+    res = chain.invoke({"content": content})
     print(res["text"])
-
-    if content == 'q':
-        break
